@@ -12,7 +12,7 @@ class HomeBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 3,
+      aspectRatio: Responsive.isMobile(context) ? 2.5 : 3,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -76,33 +76,47 @@ class MyBuildAnimatedText extends StatelessWidget {
     return DefaultTextStyle(
       // it applies same style to all the widgets under it
       style: Theme.of(context).textTheme.subtitle1!,
+      maxLines: 1,
       child: Row(
         children: [
           if (!Responsive.isMobileLarge(context)) FlutterCodedText(),
           if (!Responsive.isMobileLarge(context))
             SizedBox(width: defaultPadding / 2),
           Text("I build "),
-          AnimatedTextKit(
-            animatedTexts: [
-              TyperAnimatedText(
-                "responsive web and mobile app.",
-                speed: Duration(milliseconds: 60),
-              ),
-              TyperAnimatedText(
-                "complete e-Commerce app UI.",
-                speed: Duration(milliseconds: 60),
-              ),
-              TyperAnimatedText(
-                "Chat app with dark and light theme.",
-                speed: Duration(milliseconds: 60),
-              ),
-            ],
-          ),
+          Responsive.isMobile(context)
+              ? Expanded(child: AnimatedText())
+              : AnimatedText(),
           if (!Responsive.isMobileLarge(context))
             SizedBox(width: defaultPadding / 2),
           if (!Responsive.isMobileLarge(context)) FlutterCodedText(),
         ],
       ),
+    );
+  }
+}
+
+class AnimatedText extends StatelessWidget {
+  const AnimatedText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedTextKit(
+      animatedTexts: [
+        TyperAnimatedText(
+          "responsive web and mobile app.",
+          speed: Duration(milliseconds: 60),
+        ),
+        TyperAnimatedText(
+          "complete e-Commerce app UI.",
+          speed: Duration(milliseconds: 60),
+        ),
+        TyperAnimatedText(
+          "Chat app with dark and light theme.",
+          speed: Duration(milliseconds: 60),
+        ),
+      ],
     );
   }
 }
